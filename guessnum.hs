@@ -26,10 +26,10 @@ guess hidNum a b steps = do
     if uNum > hidNum
     then do
         putStrLn "Mine is lesser!"
-        guess hidNum a uNum (steps + 1)
+        guess hidNum a (min uNum b) (steps + 1)
     else if uNum < hidNum
          then do
             putStrLn "Mine is bigger!"
-            guess hidNum uNum b (steps + 1)
+            guess hidNum (max uNum a) b (steps + 1)
          else putStrLn $ "Congratulations! You won in " 
                          ++ (show steps) ++ " steps."
