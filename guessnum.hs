@@ -2,24 +2,34 @@ module Main where
 import System.IO
 import System.Random
 import Text.Read
+import Data.Maybe
 
 main = do
-    hidNum <- randomRIO (1::Int, 100)
-    putStrLn "I thought a number between 1 and 100"
-    putStr "Try to guess it: "
-    guess 1 hidNum
+    let a=1::Int
+        b=100::Int
+    hidNum <- randomRIO (a, b)
+    putStrLn $ "I thought a number between " ++ show a ++ " and " ++ show b
+    putStrLn "Try to guess it!"
+    guess hidNum a b 1
 
-guess :: Int -> Int -> IO ()
-guess steps hidNum = do
+askUser :: Int -> Int -> IO Int
+askUser a b = do
+    putStr $ "Put a number between " ++ show a ++ " and " ++ show b ++ ": "
     inp <- getLine
-    let uNum = (read inp) :: Int
+    case (readMaybe inp) of
+      Nothing -> askUser a b
+      Just n -> return n
+
+guess :: Int -> Int -> Int -> Int -> IO ()
+guess hidNum a b steps = do
+    uNum <- askUser a b
     if uNum > hidNum
-    then do 
-        putStr $ "Try less: "
-        guess (steps + 1) hidNum
+    then do
+        putStrLn "Mine is lesser!"
+        guess hidNum a uNum (steps + 1)
     else if uNum < hidNum
          then do
-            putStr $ "Try more: "
-            guess (steps+1) hidNum
+            putStrLn "Mine is bigger!"
+            guess hidNum uNum b (steps + 1)
          else putStrLn $ "Congratulations! You won in " 
                          ++ (show steps) ++ " steps."
