@@ -35,10 +35,8 @@ stop = Concurrent (\f -> Stop)
 
 atom :: IO a -> Concurrent a
 atom x = Concurrent 
- $ \f ->
-    Atom
-      $ do a <- x
-	   return (f a)
+ $ \f -> Atom $ do a <- x
+		   return (f a)
 
 
 -- ===================================
