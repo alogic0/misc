@@ -32,4 +32,4 @@ qsort4 (x:xs) = reverse (qsort4 smaller) ++ [x] ++ reverse (qsort4 larger)
 
 
 prop::[Int] -> Bool
-prop = \xs -> qsort3 xs == reverse (qsort xs)
+prop = \xs -> qsort4 xs == reverse (qsort xs)
