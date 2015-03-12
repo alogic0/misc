@@ -1,7 +1,9 @@
+-- author [Roman Cheplyaka](http://www.reddit.com/r/haskell/comments/2y2f1p/pager_in_ghci_like_less/cp5w8a9)
 import System.Process
 import System.Posix.IO
 import System.Posix.Types
 import Data.IORef
+import Data.List  (intersperse)
 import System.IO.Unsafe
 
 {-# NOINLINE pid_ref #-}
@@ -15,7 +17,10 @@ browseLess mod_ = do
 
   -- launch less that reads from a pipe and writes to the terminal
   (Just pipe_handle, Nothing, Nothing, pid)
-    <- createProcess (proc "less" []) { std_in = CreatePipe }
+    <- createProcess (proc "less" ["-ix8RmPm " 
+                           ++ intersperse '\\' mod_
+                           ++ " ?ltline %lt?L/%L..?e (END):?pB %pB\\%..$"])
+                     { std_in = CreatePipe }
 
   closeFd stdOutput
 
