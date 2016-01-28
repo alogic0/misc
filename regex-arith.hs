@@ -1,6 +1,6 @@
 import Text.Regex.Applicative
 
-import Data.Char hiding (Space)
+import Data.Char --hiding (Space)
 
 import Data.Maybe
 
