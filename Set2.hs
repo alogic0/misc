@@ -77,3 +77,14 @@ yLink f ma mb =
   ma `link` \m ->
     mb `link` \n ->
       Just (f m n)
+
+addSalaries2 db s1 s2 = yLink (+) (lookupMay s1 db) (lookupMay s2 db)
+
+mkMaybe :: a -> Maybe a
+mkMaybe = Just
+
+tailProd :: Num a => [a] -> Maybe a
+tailProd xs = tailMay xs `link` \ys -> mkMaybe (product ys)
+
+tailSum :: Num a => [a] -> Maybe a
+tailSum xs = yLink (\ys _ -> sum ys) (tailMay xs) (mkMaybe ())
