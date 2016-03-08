@@ -160,7 +160,18 @@ tryTwoRoomsAndTables =
        tryAllValuesRoom "r2"
        tryAllValuesRoom "r1"
        getFinalVars
-       
+
+testMplus :: NDS Variables
+testMplus = 
+    do 
+      let var = "r1"
+      (setVar var "lady") `mplus` (setVar var "tiger")
+      let var = "t1"
+      (setVar var "true") `mplus` (setVar var "false")
+      gets vars
+
+runTest = evalStateT testMplus (PS [] []) 
+
 ex1 :: IO ()
 ex1 = do 
           let variables   = []
@@ -279,17 +290,21 @@ tryThreeRoomsAndTables =
        mapM_ tryAll3TwoValuesRoom ["r3", "r2", "r1"]
        getFinalVars
        
-ex9 :: IO ()
+only :: Int -> Value -> [Variables] -> [Variables]
+only n val varss = filter fun varss
+  where 
+    fun :: Variables -> Bool
+    fun vars = (== n) $ length $ filter (== val) $ snd $ unzip vars
+
+ex9 :: [Variables]
 ex9 = do 
           let variables   = []
-              constraints = [ foldl1 orElse $ map (`Is` "true") ["t1", "t2", "t3"]
-                            , foldl1 orElse $ map (`Is` "lady") ["r1", "r2", "r3"]
-                            , "t1" `said` ("r1" `Is` "tiger")
+              constraints = [ "t1" `said` ("r1" `Is` "tiger")
                             , "t2" `said` ("r2" `Is` "lady")
                             , "t3" `said` ("r2" `Is` "tiger") 
                             ]                             
               problem = PS variables constraints
-          print $  tryThreeRoomsAndTables `getAllSolutions` problem
+          (only 1 "lady" . only 1 "true") $ tryThreeRoomsAndTables `getAllSolutions` problem
 
 testOrElse n = 
   let 
