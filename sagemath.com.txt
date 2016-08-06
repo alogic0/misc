@@ -1,0 +1,7 @@
+cabal-install:
+
+-- base16-bytestring >=0.1.1 && <0.2,
+-- cryptohash-sha256 ==0.11.*,
+hackage-security >=0.5.1 && <0.6,
+tar >=0.5.0.3 && <0.6
+
