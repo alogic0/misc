@@ -4,5 +4,8 @@ eval "$(ssh-agent -s)"
 
 ssh-add ~/.ssh/id_rsa
 
+/etc/nsswitch.conf:
+db_home: unix /d/oleg
+
 ssh 281f37b20c9c48ccbda1733e1c57ad40@compute0-us.sagemath.com
 
