@@ -1,0 +1,59 @@
+export ANDROID_ASSETS=/system/app
+export ANDROID_BOOTLOGO=1
+export ANDROID_DATA=/data
+export ANDROID_PROPERTY_WORKSPACE=10,0
+export ANDROID_ROOT=/system
+export ANDROID_SOCKET_zygote=11
+export ANDROID_STORAGE=/storage
+export ASEC_MOUNTPOINT=/mnt/asec
+export BASH=/bin/bash
+export BASHOPTS=checkwinsize:cmdhist:expand_aliases:extglob:extquote:force_fignore:histappend:interactive_comments:progcomp:promptvars:sourcepath
+export BASH_COMPLETION_COMPAT_DIR=/etc/bash_completion.d
+export BOOTCLASSPATH=/system/framework/core.jar:/system/framework/conscrypt.jar:/system/framework/okhttp.jar:/system/framework/core-junit.jar:/system/framework/bouncycastle.jar:/system/framework/ext.jar:/system/framework/framework.jar:/system/framework/framework2.jar:/system/framework/telephony-common.jar:/system/framework/voip-common.jar:/system/framework/mms-common.jar:/system/framework/android.policy.jar:/system/framework/services.jar:/system/framework/apache-xml.jar:/system/framework/webviewchromium.jar:/system/framework/com.intel.multidisplay.jar:/system/framework/com.intel.config.jar
+export COLUMNS=98
+export COMP_WORDBREAKS=$' \t\n"\'><=;|&(:'
+export EDITOR=vim
+export EMULATED_STORAGE_SOURCE=/mnt/shell/emulated
+export EMULATED_STORAGE_TARGET=/storage/emulated
+export EUID=0
+export EXTERNAL_STORAGE=/storage/emulated/legacy
+export HISTCONTROL=ignoreboth
+export HISTFILE=/home/.bash_history
+export HISTFILESIZE=2000
+export HISTSIZE=1000
+export HOME=/home
+export HOSTNAME=localhost
+export HOSTTYPE=i486
+export IFS=$' \t\n'
+export LANG=en_US.UTF-8
+export LC_MEASUREMENT=en_GB.UTF-8
+export LC_PAPER=en_GB.UTF-8
+export LC_TIME=en_GB.UTF-8
+export LD_LIBRARY_PATH=' '
+export LD_PRELOAD=' '
+export LINES=17
+export LOOP_MOUNTPOINT=/mnt/obb
+export LS_COLORS='rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lz=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:'
+export MACHTYPE=i486-pc-linux-gnu
+export MAILCHECK=60
+export OLDPWD=/home
+export OPTERR=1
+export OPTIND=1
+export OSTYPE=linux-gnu
+export PATH=/home/ghc-7.10.3-bin/bin:/home/bin:/home/.cabal/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games
+export PPID=4705
+export PROMPT_DIRTRIM=2
+export PROOT_LOADER=/data/data/champion.gnuroot/app_install/support/loader
+export PS1='\[\033[01;34m\]\w\[\033[00m\]\$ '
+export PS2='> '
+export PS4='+ '
+export PWD=/sdcard
+export SHELL=/bin/bash
+export SHELLOPTS=braceexpand:emacs:hashall:histexpand:history:interactive-comments:monitor
+export TERM=screen
+export TMPDIR=/tmp
+export TZ=Europe/Kiev
+export UID=0
+
+/data/data/champion.gnuroot/app_install/support/wheezy/proot -r /data/data/champion.gnuroot/app_install/roots/wheezy -v -1 -b /dev -b /proc -b /data -b /mnt -b /proc/mounts:/etc/mtab -b /:/host-rootfs -b /factory -b /logs -b /sdcard -b /storage -b /config -b /cache -b /acct -b /vendor -b /d -b /system -b /res -b /data /bin/bash -l
+
