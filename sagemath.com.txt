@@ -1,0 +1,16 @@
+ssh-add -l
+
+eval "$(ssh-agent -s)"
+
+ssh-add ~/.ssh/id_rsa
+
+/etc/nsswitch.conf:
+db_home: unix /d/oleg
+
+ssh 281f37b20c9c48ccbda1733e1c57ad40@compute0-us.sagemath.com
+
+scp -r /d/oleg//cabal/packages/hackage.haskell.org/th-orphans/ 281f37b20c9c48ccbda1733e1c57ad40@compute0-us.sagemath.com:~/.cabal/packages/hackage.haskell.org/
+
+git clone https://github.com/alogic0/reflex-dom.git
+##git branch --list -r
+git checkout ghcjs-dom-0.3.1.0
