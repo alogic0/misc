@@ -31,7 +31,7 @@ ghc: failed to create OS thread: Cannot allocate memory
 
 The solution:
 ```
-root@localhost:~# ulimit -s 899999
+root@localhost:~# ulimit -s 820000
 root@localhost:~# ghc-8.0.1-bin/bin/ghc -V
 The Glorious Glasgow Haskell Compilation System, version 8.0.1
 ```
