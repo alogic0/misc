@@ -1,4 +1,5 @@
 -- This is the configuration file for the 'cabal' command line tool.
+-- Located in C:\Users\%USERNAME%\AppData\Roaming\cabal\config
 
 -- The available configuration options are listed below.
 -- Some of them have default values listed.
