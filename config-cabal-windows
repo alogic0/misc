@@ -11,7 +11,7 @@
 remote-repo: hackage.haskell.org:http://hackage.haskell.org/packages/archive
 remote-repo-cache: d:\oleg\cabal\packages
 -- local-repo:
--- logs-dir:
+logs-dir: d:\oleg\cabal\logs
 world-file: d:\oleg\cabal\world
 -- verbose: 1
 -- compiler: ghc
@@ -55,7 +55,7 @@ extra-prog-path: d:\oleg\cabal\bin
 -- root-cmd:
 -- symlink-bindir:
 build-summary: d:\oleg\cabal\logs\build.log
--- build-log:
+-- build-log: d:\oleg\cabal\logs
 remote-build-reporting: anonymous
 -- one-shot: False
 jobs: $ncpus
