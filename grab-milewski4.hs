@@ -14,7 +14,13 @@ extractBody str =
       title = flattenTree [x | x@(TagBranch "title" _ _) <- uniTree]
       contentTree =
         [x | x@(TagBranch "div" [("class", "post-content")] _) <- uniTree]
-      content = flattenTree $ rmBranchByName "script" contentTree
+      content =
+        flattenTree $
+        rmBranchByNameAtr "div" ("class", "post-info") $
+        rmBranchByNameAtr "div" ("class", "post-footer") $
+        rmBranchByNameAtr "div" ("id", "jp-post-flair") $
+        rmBranchByNameAtr "div" ("class", "wpcnt") $
+        rmBranchByName "style" $ rmBranchByName "script" contentTree
   in header1 ++ title ++ header2 ++ content ++ footer
 
 main :: IO ()
@@ -60,13 +66,23 @@ footer :: [Tag String]
 footer = [TagClose "body", TagText "\n", TagClose "html", TagText "\n"]
 
 rmBranchByName :: String -> [TagTree String] -> [TagTree String]
-rmBranchByName name xs = map rmBranchByName' $ filter del xs
+rmBranchByName name xs = map rmBranchByName' $ filter good xs
   where
-    del (TagBranch nm _ _) = nm /= name
-    del _ = True
+    good (TagBranch nm _ _) = nm /= name
+    good _ = True
     rmBranchByName' l@(TagLeaf _) = l
     rmBranchByName' (TagBranch nm attr xs') =
       TagBranch nm attr (rmBranchByName name xs')
+
+rmBranchByNameAtr ::
+     String -> (String, String) -> [TagTree String] -> [TagTree String]
+rmBranchByNameAtr name atr xs = map rmBranchByNameAtr' $ filter good xs
+  where
+    good (TagBranch nm atrs _) = not (nm == name && any (== atr) atrs)
+    good _ = True
+    rmBranchByNameAtr' l@(TagLeaf _) = l
+    rmBranchByNameAtr' (TagBranch nm atrs xs') =
+      TagBranch nm atrs (rmBranchByNameAtr name atr xs')
 
 convTagTree :: [TagTree String] -> Tree NodeInfo
 convTagTree xs =
