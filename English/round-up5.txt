@@ -4,7 +4,8 @@ Sat, Oct 28, 2017  7:11:10 AM
 1.5
 - Hi, Mum!
 - Hello, June! Where are calling from?
-- I am at work at the moment. My boss is having lunch with his wife now. He often takes her to lunch on Tuesdays.
+- I am at work at the moment. My boss is having lunch with his wife now. He often
+  takes her to lunch on Tuesdays.
 - Well, why are you phoning? Is there anything wrong?
 - No, I just want you to know that I'm coming home next Saturday.
 - What time does you train arrive at Leeds?
@@ -32,25 +33,34 @@ Sat, Oct 28, 2017  7:11:10 AM
 
 1.7
 - What are you doing now?
-- I look through these old film magazines. Look, here's an old picture of Jack Nicholson.
+- I look through these old film magazines. Look, here's an old picture of Jack
+  Nicholson.
 - Oh, I think he looks awful! And this suit doesn't fit him properly.
 - Yes, I agree. And he appears to be very angry. I wonder what he is thinking about.
 - He is in that new film that's on at the Odeon now, isn't he?
 - Yes, I saw it last night. He looks very different now. He weighs a lot more.
-- I hope it's a good film. I'm seeing it tonight. Stuart is taking me. Actually, he is being very nice to me these days.
+- I hope it's a good film. I'm seeing it tonight. Stuart is taking me. Actually, he
+  is being very nice to me these days.
 - He probably wants to borrow some money.
 - I see. That explains it.
 
 
 1.8
 - Haven't you cleaned the bathroom yet?
-- Stop complaining! You've already asked me that three times today. Why is it so important?
+- Stop complaining! You've already asked me that three times today. Why is it so
+  important?
 - I've already told you. My parents are coming to stay this weekend.
-- Well, don't worry! They haven't come yet, have they? Anyway, it's not my turn to clean the bathroom. I've already done it this month.
-- That's not true. You've been living here for nearly a year and I haven't seen you do any cleaning yet.
+- Well, don't worry! They haven't come yet, have they? Anyway, it's not my turn to
+  clean the bathroom. I've already done it this month.
+- That's not true. You've been living here for nearly a year and I haven't seen you
+  do any cleaning yet.
 
 1.9
-John and Norma have been married for 20 years. They have been living in New York since 1989. John has been working on Wall Street for four years and he has made a lot of money since he started work there. Norma hasn't worked since they moved to New York but she has been writing a book for the past two years. She has had a lot of spare times since their son left home four years ago to work in France.
+John and Norma have been married for 20 years. They have been living in New York
+since 1989. John has been working on Wall Street for four years and he has made a lot
+of money since he started work there. Norma hasn't worked since they moved to New
+York but she has been writing a book for the past two years. She has had a lot of
+spare times since their son left home four years ago to work in France.
 
 
 1.10
@@ -61,5 +71,110 @@ John and Norma have been married for 20 years. They have been living in New York
 - What about Milton and Knowels?
 - They have gone to London. They're going to interview the Royal Family.
 - Has anyone been to Paris to talk to Alain Delon?
-- Smith have been *to* his country house. He interviewed him there yesterday actually. He's coming back today.
+- Smith have been *to* his country house. He interviewed him there yesterday
+  actually. He's coming back today.
 
+
+Sat Nov 18 00:03:00 EET 2017
+
+1.11
+2. She hasn't met Cathy yet.
+3. I haven't seen him since last week.
+4. How long have you been working here?
+5. She often cooks exotic dishes.
+6. Jim has been in Lisbon for four years.
+
+1.13
+  Dear Linda, I'm glad to hear that you are enjoing yourself in Australia. Things
+at home are the same as usual. Your father has been working very hard. Susan (2)has
+just passed her driving test. Alex (3)hasn't been writing for weeks, probably because
+he (4)has been studying very hard for his exams. Uncle Tom (5)has been building a
+shed in the garden. I think it will be ready next month. Mr. Brown (6)hasn't been
+feeling well recently. He (7)has visited the doctor four times this month. The dog
+(8)has had three puppies. Mrs. Smith (9)hasn't opened her new shop yet. The
+decorators (10)have been painting it for weeks. I hope you enjoy the rest of your
+stay in Australia. (11)Have you seen the famous Opera House yet? Tina sends her love.
+Write to me soon.
+  Love.
+  Mum
+
+1.14
+Arthur: I've been searching for a house for a week now but so far I haven't found
+	anything suitable.
+Sandra: Why do you want to move?
+Arthur: Well, the people living next to me are the main problem. They are always
+	arguing, especially at night.
+Sandra: Oh dear! Have you ever complained to them?
+Arthur: Yes, but they don't stop. They keep on making noize. I haven't been able to
+	sleep well latelly, and I have been feeling sleepy all week.
+Sandra: How awful!
+
+1.15
+  Robinson Crusoe has been _stuck on a desert island for the past six months. Here is
+a letter he wrote and put in a bottle:
+  "Dear Anybody,
+I've been on this island for six months now. It's a miracle that I have survived for
+this long. I've been eating fish and fruit since I got here. Fortunately, I haven't
+seen any dangerous animals yet. When I arrived here the weather was fine, but it has
+been raining continuously for the past two weeks, so I have built a shelter out of
+steaks and leaves, which is really quite cosy. My main problem is loneliness, as I
+haven't been speaking to anyone for so long. Recently I've talked to myself, but it
+isn't very interesting. Please help me.
+					R. Crusoe"
+
+1.16
+Tom: Have you seen the state of this kitchen? Someone has washed clothes in the
+     sink and they're still there!
+Fred: Yes, I know. I usually use the bath, but it is too dirty at the moment.
+Tom: Why didn't you clean it? You have been living here for two months now, and I've
+     never seen you do any house work.
+Fred: What do you mean? I've washed the dishes at least three times and I always make
+      my bed.
+Tom: Rubbish! You are always making a mess and not cleaning up afterwards.
+Fred: What about you? You are always drinking my milk!
+Tom: Don't be ridiculous! Where are you going?
+Fred: Out! I'm seeing my girlfrend this evening.
+Tom: What about the kitchen?
+Fred: Bye!
+
+Writing activity 1.
+Dear Ted,
+  I'm writing you from London. _I've been here for a week and I'm enjoying myself very
+much. So far I've seen most of the important historic places. I usually spend several
+every day in museums and galleries. The hotel I'm stayind in is lovely but is very
+expensive, so I'm planning to move to a cheaper one for the rest of my stay. Tommorow
+I'm taking trip through Kent which I'm looking forward to. I hope you're OK.
+		See you soon, Richard.
+
+1.19
+1. Our school usually breaks up for the summer in July.
+2. My car broke down on the motorway and I had to walk to a garage.
+3. When she fell off the chair, the whole class broke _into laughter.
+4. The prisoner managed to break out of prison after murdering the guard.
+5. The robber broke into the house by smashing a window.
+6. The fire broke out in the basement and quickly spread upwards.
+7. At the funeral, the boy's mother broke down and started crying.
+
+1.21
+1. I was so shoked by the news that I was at a loss for words.
+2. Look what you've done! I wouldn't like be in your shoes when Mum gets home.
+3. What do you do for living? I work as a nurse.
+4. After the divorce they didn't talk for months, but now they are on good terms with
+each other.
+5. I don't get paid till Friday, so now I'm broke.
+6. Although he did his best, he didn't win the race.
+7. Could you do me a favor? If you're going out, could you get me some milk?
+8. Now's good time to ask for a rise because the boss is in a good mood.
+
+
+				2. Past forms
+
+2.24
+1. When she was young she danced a lot.
+2. John was driving home when his car broke down.
+3. Ted was reading a book while Mary was sleeping.
+4. He was dizzy. He had been working on the computer all night.
+5. She was upset because she had lost her watch.
+6. She had been waiting for an hour before he arrived.
+
+Sat Nov 18 03:02:56 EET 2017
