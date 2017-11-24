@@ -120,7 +120,7 @@ END
 
 slide-show-1;
 echo -n 'var slides = '
-find -iname '*.jpg' -printf '%p\n' \
+find "$@" \( -iname '*.jpg' -o -iname '*.png' -o -iname '*.jpeg' \) -printf '%p\n' \
   | sort \
   | while read i;
       do echo -n \"$i\"\,;
