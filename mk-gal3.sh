@@ -1,5 +1,6 @@
 #!/bin/bash
 
+## Usage: $0 [DIRS_WITH_PHOTO] > all.html
 
 function slide-show-1 () {
 cat << END
