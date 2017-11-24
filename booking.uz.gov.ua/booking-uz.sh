@@ -1,14 +1,17 @@
 #!/bin/bash
 
 ## Usage: $0 OD KOV 19.08
+##    or: $0 OD KOV 19.08.2018
+##    or: $0 OD KOV
 
-YEAR=2017
-DT=19.08
+YEAR=$(date +'%Y')
+DT=${3:-$(date +'%d.%m')}
+
 declare -A names
 names=([2218020]=Ковель
        [2208001]=Одесса
        [2100001]=Минск) 
-:
+
 declare -A codes
 codes=([KOV]=2218020
        [OD]=2208001
@@ -18,18 +21,13 @@ if [[ -n $2 ]]
   then
     FROM=${codes[$1]}
     TO=${codes[$2]}
-    DATE=${3:-$DT}.$YEAR
 fi
-if [ x$(basename $0) == x"booking-uz-kov-od.sh" ]
-  then FROM=${codes[KOV]}
-       TO=${codes[OD]}
-       DATE=${1:-$DT}.$YEAR
-  else if [ x$(basename $0) == x"booking-uz-od-kov.sh" ]
-        then FROM=${codes[OD]}
-             TO=${codes[KOV]}
-             DATE=${1:-$DT}.$YEAR
-       fi
-  
+
+if [[ $(echo $DT | sed 's/\./ /g' | wc -w) -eq 3 ]]
+  then
+    DATE=$DT
+  else
+    DATE=${DT}.$YEAR
 fi
 
 if [[ (-n $FROM) && (-n $TO) ]]
