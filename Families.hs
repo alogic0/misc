@@ -5,12 +5,16 @@
   > pX <- stepPairs pX
 
  --repeat last line to see changes in the families of the population
+ -- or do like
+> let pX = initPairs
+> px <- nGens px 3
  ---------}
 
 module Families where
 import System.Random
 import Control.Monad
 import Data.List
+import Data.Function
 
 numPop = 20
 num = numPop `div` 2
@@ -117,3 +121,5 @@ stepPairs pairsX =
        mapM_ print genY
        genToPairs genY
 
+nGens :: [Pair] -> Int -> IO [Pair]
+nGens px n = foldM (&) px (replicate n stepPairs)
