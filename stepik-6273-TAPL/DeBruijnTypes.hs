@@ -1,4 +1,3 @@
-import Data.List (elemIndex)
 import Control.Monad
 
 type Symb = String
@@ -98,9 +97,10 @@ infer env@(Env envLst) u =
       t3T <- infer env t3
       guard $ t1T == Boo
       guard $ t2T == t3T
-      return (Boo :-> t1T)
+      return t1T
     (Idx n) -> return $ snd $ envLst !! n
-    (Lmb nm xT t) -> do
+    tp@(Lmb nm xT t) -> do
+    --  let (Lmb nm xT t) = shift 1 tp
       tT <- infer (Env ((nm,xT):envLst)) $ t
       return $ xT :-> tT
     (t1 :@: t2) -> do
