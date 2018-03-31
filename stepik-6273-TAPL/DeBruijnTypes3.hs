@@ -3,9 +3,11 @@ import Control.Monad
 type Symb = String
 infixl 2 :@: 
 infixr 3 :->
+infixl 4 :/\
 
 data Type = Boo
           | Type :-> Type
+          | Type :/\ Type
     deriving (Read,Show,Eq)
 
 data Term = Fls
@@ -15,6 +17,9 @@ data Term = Fls
           | Term :@: Term
           | Lmb Symb Type Term
           | Let Symb Term Term
+          | Pair Term Term
+          | Fst Term
+          | Snd Term
           deriving (Read,Show)
 
 instance Eq Term where
@@ -25,6 +30,9 @@ instance Eq Term where
   (u:@:w)   == (u1:@:w1)   =  u == u1 && w == w1
   Lmb _ t u == Lmb _ t1 u1 =  t == t1 && u == u1
   Let _ u w == Let _ u1 w1 =  u == u1 && w == w1
+  Pair u w  == Pair u1 w1  =  u == u1 && w == w1
+  Fst p     == Fst p1      =  p == p1
+  Snd p     == Snd p1      =  p == p1
   _         == _           =  False
 
 newtype Env = Env [(Symb,Type)]
@@ -43,6 +51,9 @@ shift val = shiftAbove 0 where
   shiftAbove cutoff (If t1 t2 t3) =
     let [t1', t2', t3'] = map (shiftAbove cutoff) [t1, t2, t3]
     in If t1' t2' t3'
+  shiftAbove cutoff (Pair t1 t2) = Pair (shiftAbove cutoff t1) (shiftAbove cutoff t2)
+  shiftAbove cutoff (Fst t) = Fst $ shiftAbove cutoff t
+  shiftAbove cutoff (Snd t) = Snd $ shiftAbove cutoff t
   shiftAbove _ t = t
 
 substDB :: Int -> Term -> Term -> Term
@@ -58,12 +69,18 @@ substDB j s (Let sym t1 t2) =
 substDB j s (If t1 t2 t3) =
     let [t1', t2', t3'] = map (substDB j s) [t1, t2, t3]
     in If t1' t2' t3'
+substDB j s (Pair t1 t2) =
+    let [t1', t2'] = map (substDB j s) [t1, t2]
+    in Pair t1' t2'
+substDB j s (Fst t) = Fst $ substDB j s t
+substDB j s (Snd t) = Snd $ substDB j s t
 substDB _ _ t = t
 
 isValue :: Term -> Bool
 isValue Fls = True
 isValue Tru = True
 isValue (Lmb _ _ _) = True
+isValue (Pair t1 t2) = isValue t1 && isValue t2
 isValue _ = False
 
 oneStep :: Term -> Maybe Term
@@ -80,6 +97,12 @@ oneStep (Let sym t1 t2)
   | isValue t1 = return $ substDB 0 t1 t2
   | otherwise = oneStep t1 >>= \t1' -> return (Let sym t1' t2)
 oneStep (t1 :@: t2) = oneStep t1 >>= \t1' -> return (t1' :@: t2)
+oneStep (Fst t@(Pair t1 t2)) | isValue t = return t1
+oneStep (Fst t) = oneStep t >>= \t' -> return (Fst t')
+oneStep (Snd t@(Pair t1 t2)) | isValue t = return t2
+oneStep (Snd t) = oneStep t >>= \t' -> return (Snd t')
+oneStep (Pair t1 t2) | isValue t1 = oneStep t2 >>= \t2' -> return (Pair t1 t2')
+oneStep (Pair t1 t2) = oneStep t1 >>= \t1' -> return (Pair t1' t2)
 oneStep _ = Nothing
 
 whnf :: Term -> Term 
@@ -101,6 +124,11 @@ oneStep test1 == Just (Lmb "y" (Boo :-> Boo) (Idx 0 :@: Fls))
 test2 = Let "x" (If Tru Fls Tru) $ Lmb "y" (Boo :-> Boo) (Idx 0 :@: Idx 1)
 oneStep test2 == Just test1
 whnf test2 == Lmb "y" (Boo :-> Boo) (Idx 0 :@: Fls)
+
+cSnd = Lmb "z" (Boo :/\ Boo) (Snd (Idx 0))
+cCurry = Lmb "f" (Boo :/\ Boo :-> Boo) $ Lmb "x" Boo $ Lmb "y" Boo $ (Idx 2) :@: Pair (Idx 1) (Idx 0)
+whnf (cCurry :@: cSnd :@: Fls :@: Tru) == Tru
+whnf (cCurry :@: cSnd :@: Fls) == (Lmb "y" Boo (Lmb "z" (Boo :/\ Boo) (Snd (Idx 0)) :@: Pair Fls (Idx 0)))
 
 -}
 
@@ -134,6 +162,16 @@ infer env@(Env envLst) u =
             then return yT
             else Nothing
         _ -> Nothing
+    (Pair t1 t2) -> do
+      t1T <- infer env t1
+      t2T <- infer env t2
+      return $ t1T :/\ t2T
+    (Fst t) -> do
+      (t1T :/\ _) <- infer env t
+      return t1T
+    (Snd t) -> do
+      (_ :/\ t2T) <- infer env t
+      return t2T
 
 
 infer0 :: Term -> Maybe Type
@@ -153,5 +191,11 @@ infer env term == Nothing
 
 test = Let "x" Fls $ Lmb "y" (Boo :-> Boo) (Idx 0 :@: Idx 1)
 infer0 test == Just ((Boo :-> Boo) :-> Boo)
+
+cK = Lmb "x" Boo (Lmb "y" Boo (Idx 1))
+cUnCurry = Lmb "f" (Boo :-> Boo :-> Boo) $ Lmb "z" (Boo :/\ Boo) $ (Idx 1) :@: Fst (Idx 0) :@: Snd (Idx 0)
+infer0 (cUnCurry :@: cK) == Just (Boo :/\ Boo :-> Boo)
+infer0 (cUnCurry :@: cK :@: Pair Fls Tru) == Just Boo
+infer0 (cUnCurry :@: cK :@: Fls) == Nothing
 
 -}
