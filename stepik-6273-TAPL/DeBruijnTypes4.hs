@@ -100,7 +100,7 @@ match (PVar s) t = Just [(s, t)]
 match (PPair p1 p2) (Pair t1 t2) = do
   ls1 <- match p1 t1
   ls2 <- match p2 t2
-  return $ ls1 ++ ls2
+  Just $ ls1 ++ ls2
 match _ _ = Nothing
 
 oneStep :: Term -> Maybe Term
@@ -109,22 +109,22 @@ oneStep (If Tru t2 _) = Just t2
 oneStep (If Fls _ t3) = Just t3
 oneStep (If t1 t2 t3) = do
   t1' <- oneStep t1
-  return (If t1' t2 t3)
+  Just (If t1' t2 t3)
 oneStep (t1@(Lmb _ _ t1') :@: t2)
-  | isValue t2 = return $ betaHelper t2 t1'
-  | otherwise = oneStep t2 >>= \t2' -> return (t1 :@: t2')
+  | isValue t2 = Just $ betaHelper t2 t1'
+  | otherwise = oneStep t2 >>= \t2' -> Just (t1 :@: t2')
 oneStep (Let p t1 t2)
   | isValue t1 = do
       lst <- match p t1 
-      return $ foldr betaHelper t2 $ snd $ unzip lst 
-  | otherwise = oneStep t1 >>= \t1' -> return (Let p t1' t2)
-oneStep (t1 :@: t2) = oneStep t1 >>= \t1' -> return (t1' :@: t2)
-oneStep (Fst t@(Pair t1 t2)) | isValue t = return t1
-oneStep (Fst t) = oneStep t >>= \t' -> return (Fst t')
-oneStep (Snd t@(Pair t1 t2)) | isValue t = return t2
-oneStep (Snd t) = oneStep t >>= \t' -> return (Snd t')
-oneStep (Pair t1 t2) | isValue t1 = oneStep t2 >>= \t2' -> return (Pair t1 t2')
-oneStep (Pair t1 t2) = oneStep t1 >>= \t1' -> return (Pair t1' t2)
+      Just $ foldr betaHelper t2 $ snd $ unzip lst 
+  | otherwise = oneStep t1 >>= \t1' -> Just (Let p t1' t2)
+oneStep (t1 :@: t2) = oneStep t1 >>= \t1' -> Just (t1' :@: t2)
+oneStep (Fst t@(Pair t1 t2)) | isValue t = Just t1
+oneStep (Fst t) = oneStep t >>= \t' -> Just (Fst t')
+oneStep (Snd t@(Pair t1 t2)) | isValue t = Just t2
+oneStep (Snd t) = oneStep t >>= \t' -> Just (Snd t')
+oneStep (Pair t1 t2) | isValue t1 = oneStep t2 >>= \t2' -> Just (Pair t1 t2')
+oneStep (Pair t1 t2) = oneStep t1 >>= \t1' -> Just (Pair t1' t2)
 oneStep _ = Nothing
 
 whnf :: Term -> Term 
@@ -165,48 +165,53 @@ oneStep test1 == Just Tru
 
 -}
 
-
+checkPat :: Pat -> Type -> Maybe Env
+checkPat (PVar s) t = Just $ Env [(s,t)]
+checkPat (PPair p1 p2) (t1 :/\ t2) = do
+  (Env e1) <- checkPat p1 t1
+  (Env e2) <- checkPat p2 t2
+  Just . Env $ e2 ++ e1
+checkPat _ _ = Nothing
 
 infer :: Env -> Term -> Maybe Type
 infer env@(Env envLst) u = 
   case u of
-    Fls -> return Boo
-    Tru -> return Boo
+    Fls -> Just Boo
+    Tru -> Just Boo
     (If t1 t2 t3) -> do
       t1T <- infer env t1
       t2T <- infer env t2
       t3T <- infer env t3
       guard $ t1T == Boo
       guard $ t2T == t3T
-      return t2T
-    (Idx n) -> return $ snd $ envLst !! n
+      Just t2T
+    (Idx n) -> Just $ snd $ envLst !! n
     (Lmb nm xT t) -> do
       tT <- infer (Env ((nm,xT):envLst)) $ t
-      return $ xT :-> tT
-{-
-    (Let nm t1 t2) -> do
+      Just $ xT :-> tT
+    (Let p t1 t2) -> do
       t1T <- infer env t1
-      infer (Env ((nm,t1T):envLst)) $ t2
--}
+      (Env pEnv) <- checkPat p t1T
+      infer (Env (pEnv ++ envLst)) $ t2
     (t1 :@: t2) -> do
       t1T <- infer env t1
       t2T <- infer env t2
       case t1T of 
         (xT :-> yT) ->
           if xT == t2T
-            then return yT
+            then Just yT
             else Nothing
         _ -> Nothing
     (Pair t1 t2) -> do
       t1T <- infer env t1
       t2T <- infer env t2
-      return $ t1T :/\ t2T
+      Just $ t1T :/\ t2T
     (Fst t) -> do
       (t1T :/\ _) <- infer env t
-      return t1T
+      Just t1T
     (Snd t) -> do
       (_ :/\ t2T) <- infer env t
-      return t2T
+      Just t2T
 
 
 infer0 :: Term -> Maybe Type
@@ -224,13 +229,22 @@ infer env term == Just Boo
 term = Idx 0 :@: Idx 1
 infer env term == Nothing
 
-test = Let "x" Fls $ Lmb "y" (Boo :-> Boo) (Idx 0 :@: Idx 1)
-infer0 test == Just ((Boo :-> Boo) :-> Boo)
-
 cK = Lmb "x" Boo (Lmb "y" Boo (Idx 1))
 cUnCurry = Lmb "f" (Boo :-> Boo :-> Boo) $ Lmb "z" (Boo :/\ Boo) $ (Idx 1) :@: Fst (Idx 0) :@: Snd (Idx 0)
 infer0 (cUnCurry :@: cK) == Just (Boo :/\ Boo :-> Boo)
 infer0 (cUnCurry :@: cK :@: Pair Fls Tru) == Just Boo
 infer0 (cUnCurry :@: cK :@: Fls) == Nothing
+
+cK = Lmb "x" Boo (Lmb "y" Boo (Idx 1))
+cUnCurry' = Lmb "f" (Boo :-> Boo :-> Boo) $ Lmb "z" (Boo :/\ Boo) $ Let (PPair (PVar "x") (PVar "y")) (Idx 0) $ Idx 3 :@: Idx 1 :@: Idx 0
+infer0 cUnCurry' == Just ((Boo :-> (Boo :-> Boo)) :-> (Boo :/\ Boo :-> Boo))
+infer0 (cUnCurry' :@: cK) == Just (Boo :/\ Boo :-> Boo)
+infer0 (cUnCurry' :@: cK :@: Pair Fls Tru) == Just Boo
+infer0 (cUnCurry' :@: cK :@: Fls) == Nothing
+[pa,pb,pc,pd] = PVar <$> ["a","b","c","d"]
+pair  = Pair Tru cK
+ppair = PPair pa pb
+(infer0 $ Let ppair pair (Idx 0)) == Just (Boo :-> (Boo :-> Boo))
+(infer0 $ Let ppair pair (Idx 1)) == Just Boo
 
 -}
