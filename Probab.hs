@@ -102,3 +102,11 @@ probN n = (makeFunction pNA n) % (makeFunction pDA n)
 -- [(k, n) | k <- [2 .. 12], n <- [1 .. 6], pAB k n == pA k * pB]
 
 pBr n p k = fromIntegral (comb n k) * p ^ k * (1 - p) ^ (n - k)
+
+disS = reverse $ take 11 $ [30 % 100, 40 % 100, 20 % 100] ++ repeat (5 % 100)
+shoots = [[x1, x2, x3, x4, x5] | x1 <- [0 .. 10], x2 <- [0 .. 10], x3 <- [0 .. 10], x4 <- [0 .. 10], x5 <- [0 .. 10], x1 + x2 + x3 + x4 + x5 == 47]
+pSidorR = fromRational $ sum [product pSh |sh <- shoots, let pSh = map (disS !!) sh]
+
+
+shootsB cmp n = [[x1, x2, x3, x4, x5] | x1 <- [0 .. 10], x2 <- [0 .. x1], x3 <- [0 .. x2], x4 <- [0 .. x3], x5 <- [0 .. x4], cmp (x1 + x2 + x3 + x4 + x5) n]
+pSidorRB cmp n = fromRational $ sum [k * product pSh |sh <- shootsB cmp n, let pSh = map (disS !!) sh, let k = (toInteger $ fact (length sh)) % (toInteger $ product $ map (fact . length) (group sh))]
