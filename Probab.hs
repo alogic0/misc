@@ -110,3 +110,48 @@ pSidorR = fromRational $ sum [product pSh |sh <- shoots, let pSh = map (disS !!)
 
 shootsB cmp n = [[x1, x2, x3, x4, x5] | x1 <- [0 .. 10], x2 <- [0 .. x1], x3 <- [0 .. x2], x4 <- [0 .. x3], x5 <- [0 .. x4], cmp (x1 + x2 + x3 + x4 + x5) n]
 pSidorRB cmp n = fromRational $ sum [k * product pSh |sh <- shootsB cmp n, let pSh = map (disS !!) sh, let k = (toInteger $ fact (length sh)) % (toInteger $ product $ map (fact . length) (group sh))]
+
+-- 2.3 10
+eDice = sum [1 .. 6] % 6
+eDice2 = sum (map (^2) [1 .. 6]) % 6
+dDice = eDice2 - eDice ^ 2
+
+pMaxD n = (2 * n - 1) % 36
+eMaxD = sum $ map (\n -> fromIntegral n * pMaxD n) [1 .. 6]
+eMaxD2 = sum $ map (\n -> fromIntegral n ^ 2 * pMaxD n) [1 .. 6]
+dMaxD = eMaxD2 - eMaxD ^ 2
+
+eDiceMaxD = sum [ x * y * p | x <- [1 .. 6], y <- [x .. 6], let p = if x == y then x else 1] % 36 
+covDiceMaxD = eDiceMaxD - eDice * eMaxD
+
+-- 2.3 11
+e4set = sum [1 .. 4] % 4
+e4set2 = sum (map (^2) [1 .. 4]) % 4
+
+p4setB n = (1 % 4) * sum (map (\n -> 1 % (4 - n + 1)) [1 .. n]) 
+e4setB = sum $ map (\n -> fromIntegral n * p4setB n) [1 .. 4]
+e4setB2 = sum $ map (\n -> fromIntegral n ^ 2 * p4setB n) [1 .. 4]
+d4setB = e4setB2 - e4setB ^ 2
+
+cov4setB = sum [ fromIntegral x * fromIntegral y * (1 % 4) * (1 % (4 - x + 1)) | x <- [1 .. 4], y <- [x .. 4]] - e4set * e4setB
+--
+
+eBadDice = sum $ map (\n -> n ^ 2 * (1%21)) [1 .. 6]
+
+--- 2.4 8:  1 - 35/(12 * 500)/ (0.2 ^ 2)
+
+--- 2.4 9:  P(|S/n - p| >= e) <= (p*q)/(n*e^2) p=1/6 q=5/6 e=0.03 n=400
+
+pPS n k p = l ^ k / (exp 1 ** l * fromIntegral (fact k))
+  where l = n * p
+
+-- 2.5 5: p = 1e-4; n = 1e5;  ans = 1 - sum (map (pPS (p*n)) [0 .. 5])
+-- 2.5 6: 
+pNBd k = fromRational $ 1 - ordComb 365 k % (365 ^ k)
+ansNBd p = head $ dropWhile ((== LT) . snd) $ zip [2 .. ] $ map (\n -> compare (pNBd n) p) [2 .. ]
+
+pLap n k p =
+  exp (-1/2 * x^2)/sqrt(2 * pi * n * p * q)
+  where
+    q = 1 - p
+    x = (k - n*p)/sqrt(n*p*q)
