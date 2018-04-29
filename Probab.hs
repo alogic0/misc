@@ -155,3 +155,6 @@ pLap n k p =
   where
     q = 1 - p
     x = (k - n*p)/sqrt(n*p*q)
+
+-- 3.1 7: f n = (2 * 1/4 * 1/3 * (2 * sqrt n)^3 + 2 * n * (n - 2*sqrt n) + 2*n^2)/(4*n^2)
+--        f n = 1 - 2/(3 * sqrt n)
