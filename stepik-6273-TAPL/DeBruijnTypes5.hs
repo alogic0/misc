@@ -266,10 +266,9 @@ infer env@(Env envLst) u =
     Fls -> Just Boo
     Tru -> Just Boo
     (If t1 t2 t3) -> do
-      t1T <- infer env t1
+      Boo <- infer env t1
       t2T <- infer env t2
       t3T <- infer env t3
-      guard $ t1T == Boo
       guard $ t2T == t3T
       Just t2T
     (Idx n) -> Just $ snd $ envLst !! n
@@ -308,7 +307,7 @@ infer env@(Env envLst) u =
       Just Nat
     (IsZero t) -> do 
       Nat <- infer env t
-      Just Nat
+      Just Boo 
     (Fix t) -> do 
       (xT :-> yT) <- infer env t 
       if xT == yT
