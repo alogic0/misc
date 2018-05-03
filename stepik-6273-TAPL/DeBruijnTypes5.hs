@@ -29,7 +29,7 @@ data Term = Fls
           | Pair Term Term
           | Fst Term
           | Snd Term
-	  | Fix Term
+          | Fix Term
           deriving (Read,Show)
 
 instance Eq Term where
@@ -73,6 +73,10 @@ shift val = shiftAbove 0 where
   shiftAbove cutoff (Pair t1 t2) = Pair (shiftAbove cutoff t1) (shiftAbove cutoff t2)
   shiftAbove cutoff (Fst t) = Fst $ shiftAbove cutoff t
   shiftAbove cutoff (Snd t) = Snd $ shiftAbove cutoff t
+  shiftAbove cutoff (Succ t) = Succ $ shiftAbove cutoff t
+  shiftAbove cutoff (Pred t) = Pred $ shiftAbove cutoff t
+  shiftAbove cutoff (IsZero t) = IsZero $ shiftAbove cutoff t
+  shiftAbove cutoff (Fix t) = Fix $ shiftAbove cutoff t
   shiftAbove _ t = t
 
 substDB :: Int -> Term -> Term -> Term
@@ -93,16 +97,26 @@ substDB j s (Pair t1 t2) =
     in Pair t1' t2'
 substDB j s (Fst t) = Fst $ substDB j s t
 substDB j s (Snd t) = Snd $ substDB j s t
+substDB j s (Succ t) = Succ $ substDB j s  t
+substDB j s (Pred t) = Pred $ substDB j s  t
+substDB j s (IsZero t) = IsZero $ substDB j s  t
+substDB j s (Fix t) = Fix $ substDB j s  t
 substDB _ _ t = t
 
 betaHelper :: Term -> Term -> Term
 betaHelper w u = shift (-1) $ substDB 0 (shift 1 w) u
+
+isNV :: Term -> Bool
+isNV Zero = True
+isNV (Succ t) = isNV t
+isNV _ = False
 
 isValue :: Term -> Bool
 isValue Fls = True
 isValue Tru = True
 isValue (Lmb _ _ _) = True
 isValue (Pair t1 t2) = isValue t1 && isValue t2
+isValue t | isNV t = True
 isValue _ = False
 
 match :: Pat -> Term -> Maybe [(Symb,Term)]
@@ -136,6 +150,15 @@ oneStep (Snd t@(Pair t1 t2)) | isValue t = Just t2
 oneStep (Snd t) = oneStep t >>= \t' -> Just (Snd t')
 oneStep (Pair t1 t2) | isValue t1 = oneStep t2 >>= \t2' -> Just (Pair t1 t2')
 oneStep (Pair t1 t2) = oneStep t1 >>= \t1' -> Just (Pair t1' t2)
+oneStep (Succ t) = Succ <$> oneStep t
+oneStep (Pred Zero) = Just Zero
+oneStep (Pred (Succ t)) | isNV t = Just t
+oneStep (Pred t) = Pred <$> oneStep t
+oneStep (IsZero Zero) = Just Tru
+oneStep (IsZero (Succ t)) | isNV t = Just Fls
+oneStep (IsZero t) = IsZero <$> oneStep t
+oneStep t@(Fix (Lmb _ _ t1)) = Just $ betaHelper t t1
+oneStep (Fix t) = Fix <$> oneStep t
 oneStep _ = Nothing
 
 whnf :: Term -> Term 
@@ -173,6 +196,59 @@ test0 = Let (PPair (PVar "a") (PVar "b")) (Pair Tru Fls) (Idx 0)
 oneStep test0 == Just Fls
 test1 = Let (PPair (PVar "a") (PVar "b")) (Pair Tru Fls) (Idx 1)
 oneStep test1 == Just Tru
+
+-}
+
+
+one   = Succ Zero
+two   = Succ one
+three = Succ two
+four  = Succ three
+five  = Succ four
+six   = Succ five
+seven = Succ six
+eight = Succ seven
+nine  = Succ eight
+ten   = Succ nine
+
+plus_ = Lmb "f" (Nat :-> Nat :-> Nat) $ Lmb "m" Nat $ Lmb "n" Nat $ 
+  If (IsZero $ Idx 1) 
+     (Idx 0) 
+     (Succ $ Idx 2 :@: Pred (Idx 1) :@: Idx 0)
+plus = Fix plus_
+
+minus_ = Lmb "f" (Nat :-> Nat :-> Nat) $ Lmb "m" Nat $ Lmb "n" Nat $ 
+  If (IsZero $ Idx 0)
+     (Idx 1) 
+     (Pred $ Idx 2 :@: Idx 1 :@: Pred (Idx 0))
+minus = Fix minus_
+
+eq_ = Lmb "f" (Nat :-> Nat :-> Boo) $ Lmb "m" Nat $ Lmb "n" Nat $ 
+  If (IsZero $ Idx 1) 
+     (IsZero $ Idx 0) 
+     (If (IsZero $ Idx 0) 
+         (IsZero $ Idx 1) 
+         (Idx 2 :@: Pred (Idx 1) :@: Pred (Idx 0)))
+eq = Fix eq_
+
+mult_ = Lmb "f" (Nat :-> Nat :-> Nat) $ Lmb "m" Nat $ Lmb "n" Nat $ 
+  If (IsZero $ Idx 1) 
+     Zero 
+     (plus :@: Idx 0 :@: (Idx 2 :@: Pred (Idx 1) :@: Idx 0))
+mult = Fix mult_
+
+power_  = Lmb "f" (Nat :-> Nat :-> Nat) $ Lmb "m" Nat $ Lmb "n" Nat $ 
+  If (IsZero $ Idx 0) 
+     one 
+     (mult :@: Idx 1 :@: (Idx 2 :@: Idx 1 :@: Pred (Idx 0)))
+power = Fix power_
+
+{- --Test
+
+test = minus :@: (power :@: nine :@: two) :@: (mult :@: eight :@: ten)
+whnf test == Succ Zero
+whnf $ eq :@: test :@: one
+whnf (IsZero (Succ (Pred Fls))) == IsZero (Succ (Pred Fls))
 
 -}
 
@@ -223,6 +299,21 @@ infer env@(Env envLst) u =
     (Snd t) -> do
       (_ :/\ t2T) <- infer env t
       Just t2T
+    Zero -> Just Nat
+    (Succ t) -> do
+      Nat <- infer env t 
+      Just Nat
+    (Pred t) -> do
+      Nat <- infer env t
+      Just Nat
+    (IsZero t) -> do 
+      Nat <- infer env t
+      Just Nat
+    (Fix t) -> do 
+      (xT :-> yT) <- infer env t 
+      if xT == yT
+        then (Just xT)
+        else Nothing
 
 
 infer0 :: Term -> Maybe Type
@@ -257,5 +348,9 @@ pair  = Pair Tru cK
 ppair = PPair pa pb
 (infer0 $ Let ppair pair (Idx 0)) == Just (Boo :-> (Boo :-> Boo))
 (infer0 $ Let ppair pair (Idx 1)) == Just Boo
+
+infer0 (Lmb "f" (Nat :-> Nat) $ Fix $ Idx 0) == Just ((Nat :-> Nat) :-> Nat)
+infer0 power == Just (Nat :-> (Nat :-> Nat))
+infer0 (Lmb "f" (Nat :-> Boo) $ Fix $ Idx 0) == Nothing
 
 -}
