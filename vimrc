@@ -19,3 +19,4 @@ function StripTrailingWhitespace()
   call cursor(myline, mycolumn)
 endfunction
 set autoindent
+set visualbell
