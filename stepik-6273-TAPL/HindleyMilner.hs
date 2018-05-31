@@ -14,7 +14,7 @@ exts s t =
   case (s t) of
     Nothing -> Just t
     x       -> x
-  
+
 subst :: (Type -> Maybe Type) -> Type -> Maybe Type
 subst s t =
   case t of
