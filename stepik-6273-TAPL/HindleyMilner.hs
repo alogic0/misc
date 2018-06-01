@@ -22,10 +22,10 @@ freeVars (TVar x) = [x]
 freeVars (t1 :-> t2) = freeVars t1 ++ freeVars t2
 
 unify :: Type -> Type -> Maybe [(Type, Type)]
-unify  (TVar a) (TVar b) =
-  if a == b
+unify  va@(TVar _) vb@(TVar _) =
+  if va == vb
   then Just [] 
-  else Nothing
+  else Just [(va, vb)]
 unify va@(TVar a) t
   | a `elem` freeVars t = Nothing
   | otherwise = Just [(va,t)]
