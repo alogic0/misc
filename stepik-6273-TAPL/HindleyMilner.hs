@@ -39,3 +39,9 @@ unify (s1 :-> s2) (t1 :-> t2) = do
   t1' <- mkFun uni2 t1
   uniNew <- unify s1' t1'
   return $ uni2 ++ uniNew
+
+-- Tests
+{-
+test a b = unify a b >>= \lst -> return $ subst (mkFun lst) a == subst (mkFun lst) b
+test (TVar "a" :-> TVar "b" :-> TVar "c") (TVar "d" :-> TVar "d")
+-}
