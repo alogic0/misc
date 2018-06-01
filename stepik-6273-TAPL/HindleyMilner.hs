@@ -1,6 +1,7 @@
 module HindleyMilner where
 import Control.Applicative ((<|>))
 import Control.Monad (guard)
+import Data.Maybe (fromJust)
 
 type Symb = String
 
@@ -39,7 +40,8 @@ unify (s1 :-> s2) (t1 :-> t2) = do
 
 -- Tests
 {-
-test a b = unify a b >>= \lst -> return $ subst lst a == subst lst b
+deepSubst lst e = foldl (\e s -> fromJust $ subst [s] e) e lst
+test a b = unify a b >>= \lst -> return $ deepSubst lst a == deepSubst lst b
 test (TVar "a" :-> TVar "b" :-> TVar "c") (TVar "d" :-> TVar "d")
 test (TVar "b" :-> TVar "b") (((TVar "g" :-> TVar "d") :-> TVar "e") :-> TVar "a" :-> TVar "d")
 -}
