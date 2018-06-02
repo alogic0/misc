@@ -158,3 +158,24 @@ pLap n k p =
 
 -- 3.1 7: f n = (2 * 1/4 * 1/3 * (2 * sqrt n)^3 + 2 * n * (n - 2*sqrt n) + 2*n^2)/(4*n^2)
 --        f n = 1 - 2/(3 * sqrt n)
+
+erf :: Double -> Double
+erf x = sign*y 
+    where
+        a1 =  0.254829592
+        a2 = -0.284496736
+        a3 =  1.421413741
+        a4 = -1.453152027
+        a5 =  1.061405429
+        p  =  0.3275911
+
+        -- Abramowitz and Stegun formula 7.1.26
+        sign = if x > 0
+                   then  1
+                   else -1
+        t  =  1.0/(1.0 + p* abs x)
+        y  =  1.0 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*exp(-x*x)
+
+fF :: Double -> Double
+fF x = 1/2*erf(x/sqrt 2)
+fFt x = (fromIntegral . round) (1e4 * fF x) / 1e4
