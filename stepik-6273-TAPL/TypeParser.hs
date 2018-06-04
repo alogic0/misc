@@ -68,3 +68,17 @@ prs = do
   else do 
     ls <- prs
     return (l:ls)
+
+
+test a b = do
+  print $ testS a b
+  print $ unifyS a b 
+
+{- Tests
+
+test "b -> a -> b "      "(g -> g) -> d"
+test "a -> ( b -> c )"   "d -> d"
+test "b -> b"            "((g -> d) -> e) -> (a -> d)"
+test "a -> b -> a"       "g -> d"
+
+-}
