@@ -8,6 +8,7 @@ import Text.Megaparsec.Expr
 import Text.Megaparsec.Char 
 import qualified Text.Megaparsec.Char.Lexer as L
 import qualified Control.Monad.State as S
+import qualified Text.Regex.Applicative as RE
 import HindleyMilner
 
 type Parser = Parsec Void String
@@ -36,8 +37,12 @@ binary  name f = InfixL  (f <$ symbol name)
 
 seqSubst lst e = foldl (\e s -> fromJust $ subst [s] e) e lst
 
+re1 = RE.string " " *> RE.string ")"
+re2 = RE.string "(" <* RE.string " " 
+
 prettyShow :: Type -> String
-prettyShow = unwords . map (filter (flip notElem ":\""))
+prettyShow = RE.replace re2 . RE.replace re1 . unwords 
+             . map (filter (flip notElem ":\""))
              . filter (/="TVar") . S.evalState prs . show
 
 testS aS bS = do
