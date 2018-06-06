@@ -15,7 +15,7 @@ cd $HOME
 . .profile
 . .bashrc
 ```
-After re-running `mingw64` you'll be in the new home. The full path in my case is `D:\mstmp\msys64\home\oleg`
+After re-running `mingw64` you'll be in the new home. The full path in my case is `D:\mstmp\msys64\home\oleg`  
 3. Follow the steps from [Windows preparation](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Windows#II.UpgradingpackagesinMSYS2).
 
 
