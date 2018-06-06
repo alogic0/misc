@@ -34,3 +34,7 @@ pacman -S --needed git tar bsdtar binutils autoconf make xz \
 ```bash
  PREFIX=$HOME/cabal  ./bootstrap.sh --user --no-doc
  ```
+ Download binary windows [release](https://www.haskell.org/ghc/) of GHC, unpack it to `$HOME` and add its `bin` and `lib/bin` dirs to your `$PATH`.
+```
+export PATH=$HOME/ghc-8.4.3/bin:$HOME/ghc-8.4.3/lib/bin:$PATH
+```
