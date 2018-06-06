@@ -16,8 +16,20 @@ cd $HOME
 . .bashrc
 ```
 After re-running `mingw64` you'll be in the new home. The full path in my case is `D:\mstmp\msys64\home\oleg`  
-3. Follow the steps from [Windows preparation](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Windows#II.UpgradingpackagesinMSYS2).
 
+Now follow the steps from the [Windows preparation](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Windows#II.UpgradingpackagesinMSYS2).
+
+Run and complete, following its advices
+```
+pacman -Syuu
+```
+Install dependencies:
+```
+pacman -S --needed git tar bsdtar binutils autoconf make xz \
+    curl libtool automake python python2 p7zip patch ca-certificates \
+    mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-python3-sphinx \
+    mingw-w64-$(uname -m)-tools-git
+```
 
 ```bash
  PREFIX=$HOME/cabal  ./bootstrap.sh --user --no-doc
