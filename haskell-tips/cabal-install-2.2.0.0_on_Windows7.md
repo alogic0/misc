@@ -2,7 +2,7 @@ Do you have an Windows 7 machine and a user name containing some no ASCII symbol
 a simple path name. For example, into `d:\shonfinkel\` or `d:\haskell\`. We'll do the following steps for this:
 
 1.  Install [MSYS2](http://repo.msys2.org/distrib/)  
-Download the latest `tar.gz` file from there and unpack it to `d:\shonfinkel` directory. 
+Download the latest `tar.gz` file from the site and unpack it to the `d:\shonfinkel` directory. 
 You can choose any path, but avoid spaces and non ASCII symbols in it. Now we have a directory `d:\shonfinkel\msys64`.
 Run `mingw64.exe` from there it will make the initial configuration of MSYS2. 
 It's useful also to go into the 'Options' menu in the opened window and change font 
