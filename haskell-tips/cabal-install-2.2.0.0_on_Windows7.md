@@ -1,4 +1,4 @@
-Do you have an Windows 7 machine and a user name containing some no ASCII symbols? If 'No' then skip steps 2-4, if 'Yes', then you'll have a problem with building the `cabal-install`. The solution is to install GHC and all its packages into a directory with 
+Do you have a Windows 7 machine and a username containing some no ASCII symbols? If 'No' then skip steps 2-4, if 'Yes', then you'll have a problem with building the `cabal-install`. The solution is to install GHC and all its packages into a directory with 
 a simple path name. For example, into `d:\shonfinkel\` or `d:\haskell\`. We'll do the following steps for this:
 
 1.  Install [MSYS2](http://repo.msys2.org/distrib/)  
@@ -8,7 +8,7 @@ Run `mingw64.exe` from there. It will make the initial configuration of MSYS2.
 It's useful also to go into the 'Options' menu in the opened window and change font 
 and window sizes there for better looking, if you will. Now, run `msys64` terminal again and you are in the Linux environment.
 2.  Our current home directory is named as `<your Windows name>`. We won't change it, but we'll change the `$HOME` variable and will work inside a new directory with the only ASCII symbols in its name. This is for saving us from the problems during a compilation.  
-3.  Create a directory inside `/home` with ASCII user name.  
+3.  Create a directory inside `/home` with ASCII username.  
 I've created a directory named `oleg` and copied `.bashrc` and `.profile` there from the current `$HOME`.
 The old `.bashrc` and `.profile` were replaced with the following content:
      ```bash
