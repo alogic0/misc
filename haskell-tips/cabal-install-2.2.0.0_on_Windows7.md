@@ -25,12 +25,14 @@ Run and wait for complete the next command, follow its screen advices
 ```
 pacman -Syuu
 ```
+Run it again.
+
 Install dependencies:
 ```
 pacman -S --needed git tar bsdtar binutils autoconf make xz \
     curl libtool automake python python2 p7zip patch ca-certificates \
-    mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-python3-sphinx \
-    mingw-w64-$(uname -m)-tools-git
+    mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-tools-git \
+    mingw-w64-$(uname -m)-python3-sphinx
 ```
  Download the binary [release](https://www.haskell.org/ghc/) of GHC for Windows, unpack it to `$HOME` and add its `bin` and `lib/bin` dirs to your `$PATH`.
 ```
