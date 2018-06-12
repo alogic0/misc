@@ -10,10 +10,10 @@
 
 
 remote-repo: hackage.haskell.org:http://hackage.haskell.org/packages/archive
-remote-repo-cache: d:\oleg\cabal\packages
+remote-repo-cache: D:\shonfinkel\msys64\home\oleg\cabal\packages
 -- local-repo:
-logs-dir: d:\oleg\cabal\logs
-world-file: d:\oleg\cabal\world
+logs-dir: D:\shonfinkel\msys64\home\oleg\cabal\logs
+world-file: D:\shonfinkel\msys64\home\oleg\cabal\world
 -- verbose: 1
 -- compiler: ghc
 -- with-compiler:
@@ -35,7 +35,7 @@ world-file: d:\oleg\cabal\world
 -- flags:
 -- extra-include-dirs:
 -- extra-lib-dirs:
-extra-prog-path: d:\oleg\cabal\bin
+extra-prog-path: D:\shonfinkel\msys64\home\oleg\cabal\bin
 -- tests: False
 -- library-coverage: False
 -- benchmarks: False
@@ -55,8 +55,8 @@ extra-prog-path: d:\oleg\cabal\bin
 -- upgrade-dependencies: False
 -- root-cmd:
 -- symlink-bindir:
-build-summary: d:\oleg\cabal\logs\build.log
--- build-log: d:\oleg\cabal\logs
+build-summary: D:\shonfinkel\msys64\home\oleg\cabal\logs\build.log
+-- build-log: D:\shonfinkel\msys64\home\oleg\cabal\logs
 remote-build-reporting: anonymous
 -- one-shot: False
 jobs: $ncpus
@@ -64,7 +64,7 @@ jobs: $ncpus
 -- password:
 
 install-dirs user
-  prefix: d:\oleg\cabal
+  prefix: D:\shonfinkel\msys64\home\oleg\cabal
   -- bindir: $prefix\bin
   -- libdir: $prefix
   -- libsubdir: $arch-$os-$compiler\$pkgid
@@ -77,7 +77,7 @@ install-dirs user
   -- sysconfdir: $prefix\etc
 
 install-dirs global
-  prefix: d:\oleg\cabal
+  prefix: D:\shonfinkel\msys64\home\oleg\cabal
   -- bindir: $prefix\bin
   -- libdir: $prefix
   -- libsubdir: $arch-$os-$compiler\$pkgid
