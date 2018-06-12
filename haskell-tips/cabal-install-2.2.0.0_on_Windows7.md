@@ -1,6 +1,5 @@
-Do you have an Windows 7 machine and a user name containing some no ASCII symbols? Then you'll have a problem
-with building the `cabal-install`. The solution is to install GHC and all its packages
-into a directory with a simple path name. For example, into `d:\shonfinkel\`. We'll do the following steps for this:
+Do you have an Windows 7 machine and a user name containing some no ASCII symbols? If 'No' then skip steps 2-4, if 'Yes', then you'll have a problem with building the `cabal-install`. The solution is to install GHC and all its packages into a directory with 
+a simple path name. For example, into `d:\shonfinkel\` or `d:\haskell\`. We'll do the following steps for this:
 
 1.  Install [MSYS2](http://repo.msys2.org/distrib/)  
 Download a latest `tar.gz` file from there and unpack it to `d:\shonfinkel` directory. 
@@ -18,7 +17,7 @@ The old `.bashrc` and `.profile` were replaced with the following content:
      . .profile
      . .bashrc
      ```
-3.  After re-running `mingw64` you'll be in your new home. The path inside MSYS2 is `/home/oleg` and the full Windows path is `D:\shonfinkel\msys64\home\oleg`  
+4.  After re-running `mingw64` you'll be in your new home. The path inside MSYS2 is `/home/oleg` and the full Windows path is `D:\shonfinkel\msys64\home\oleg`  
 
 Now we'll do the steps taken from the [Windows preparation](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Windows#II.UpgradingpackagesinMSYS2) instruction.
 
