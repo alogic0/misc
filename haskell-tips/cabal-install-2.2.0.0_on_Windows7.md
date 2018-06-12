@@ -2,22 +2,24 @@ Do you have an Windows 7 machine and a user name with some no ASCII symbols? The
 with building the `cabal-install`. The solution is to install GHC and all packages
 into a directory with a simple path. For example `d:\mstmp\`. We'll do the following steps:
 
-1. Install [MSYS2](http://repo.msys2.org/distrib/)  
-I download `tar.gz` file and unpack it to my `d:\mstmp` directory.  
-Run after unpacking `mingw64.exe` so it will make the initial configuration of the MSYS2. 
-It's optional also to change 'Options' of the window to have better font and window size if you will.
-2. Create a directory inside `/home` with ASCII user name. Now we'll make it a new home.  
+1.  Install [MSYS2](http://repo.msys2.org/distrib/)  
+I download a latest `tar.gz` file from there and unpack it to my, let's say, `d:\mstmp` directory.  
+You can choose any path, but avoid spaces and non ASCII symbols in it.
+Run, after unpacking, `mingw64.exe`. It will make the initial configuration of MSYS2. 
+It's useful also to go into the 'Options' menu it the opened terminal window and change for better looking font 
+and size of the window if you will.
+2.  Create a directory inside `/home` with ASCII user name. Now we'll make it a new home.  
 I create a directory named `oleg` and copy `.bashrc` and `.profile` there from the current home.
 Then old `.bashrc` and `.profile` are replaced with the following content:
-```bash
-export HOME=/home/oleg
-cd $HOME
-. .profile
-. .bashrc
-```
-After re-running `mingw64` you'll be in the new home. The full path in my case is `D:\mstmp\msys64\home\oleg`  
+     ```bash
+     export HOME=/home/oleg
+     cd $HOME
+     . .profile
+     . .bashrc
+     ```
+3.  After re-running `mingw64` you'll be in the new home. The full Windows path in my case is `D:\mstmp\msys64\home\oleg`  
 
-Now we'll do the steps taken from the [Windows preparation](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Windows#II.UpgradingpackagesinMSYS2).
+Now we'll do the steps taken from the [Windows preparation](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Windows#II.UpgradingpackagesinMSYS2) instruction.
 
 Run and wait for complete the next command, follow its screen advices
 ```
