@@ -52,7 +52,7 @@ export PATH=$HOME/cabal/bin:$PATH
 ```
 If it successfully finished don't forget to add the string from, starting with `export` to your `.profile` file.
 
-And the final step, the `config` file for `cabal-install` is in the hidden for Windows users directory `/c/Users/<yourname>/AppData/Roaming/cabal/`. Change all the path-records there to your version of my `d:\mstmp\msys64\home\oleg\cabal`. See, for example, [my variant](./config-windows).
+And the final step, the `config` file for `cabal-install` is in the hidden for Windows users directory `/c/Users/<yourname>/AppData/Roaming/cabal/`. Change all the path-records there to your version of `d:\shonfinkel\msys64\home\oleg\cabal`. See, for example, [my variant](./config-windows).
 
 Now, you can run
 ```
