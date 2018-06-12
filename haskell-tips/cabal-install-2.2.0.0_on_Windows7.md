@@ -1,14 +1,14 @@
-Do you have an Windows 7 machine and an user name with some no ASCII symbols? Then you'll have a problem
+Do you have an Windows 7 machine and a user name with some no ASCII symbols? Then you'll have a problem
 with building the `cabal-install`. The solution is to install GHC and all packages
 into a directory with a simple path. For example `d:\mstmp\`. We'll do the following steps:
 
 1. Install [MSYS2](http://repo.msys2.org/distrib/)  
-I use `tar.gz` file and just unpack it to my `d:\mstmp` directory.  
-Run after unpacking `mingw64.exe` file so it will make the initial configuration of the MSYS2. 
+I download `tar.gz` file and unpack it to my `d:\mstmp` directory.  
+Run after unpacking `mingw64.exe` so it will make the initial configuration of the MSYS2. 
 It's optional also to change 'Options' of the window to have better font and window size if you will.
-2. Create inside `/home` a directory with ASCII user name and make it a new home.  
-I've created a directory named `oleg` and copied there `.bashrc` and `.profile` from the current home.
-Then old `.bashrc` and `.profile` were replaced with the following content:
+2. Create a directory inside `/home` with ASCII user name. Now we'll make it a new home.  
+I create a directory named `oleg` and copy `.bashrc` and `.profile` there from the current home.
+Then old `.bashrc` and `.profile` are replaced with the following content:
 ```bash
 export HOME=/home/oleg
 cd $HOME
@@ -17,9 +17,9 @@ cd $HOME
 ```
 After re-running `mingw64` you'll be in the new home. The full path in my case is `D:\mstmp\msys64\home\oleg`  
 
-Now we'll do the steps from the [Windows preparation](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Windows#II.UpgradingpackagesinMSYS2).
+Now we'll do the steps taken from the [Windows preparation](https://ghc.haskell.org/trac/ghc/wiki/Building/Preparation/Windows#II.UpgradingpackagesinMSYS2).
 
-Run and complete, following its advices
+Run and wait for complete the next command, follow its screen advices
 ```
 pacman -Syuu
 ```
@@ -30,11 +30,11 @@ pacman -S --needed git tar bsdtar binutils autoconf make xz \
     mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-python3-sphinx \
     mingw-w64-$(uname -m)-tools-git
 ```
- Download binary windows [release](https://www.haskell.org/ghc/) of GHC, unpack it to `$HOME` and add its `bin` and `lib/bin` dirs to your `$PATH`.
+ Download the binary [release](https://www.haskell.org/ghc/) of GHC for Windows, unpack it to `$HOME` and add its `bin` and `lib/bin` dirs to your `$PATH`.
 ```
 export PATH=$HOME/ghc-8.4.3/bin:$HOME/ghc-8.4.3/lib/bin:$PATH
 ```
-Now we can install `cabal-install` via modified script `bootstrap.sh` which downloads and compiles dependencies.
+Now we can install `cabal-install` via modified script `bootstrap.sh` which downloads and compiles all needed dependencies.
 ```bash
 wget https://hackage.haskell.org/package/cabal-install-2.2.0.0/cabal-install-2.2.0.0.tar.gz
 wget https://hackage.haskell.org/package/cabal-install-2.2.0.0/cabal-install.cabal
@@ -47,6 +47,6 @@ PREFIX=$HOME/cabal  ./bootstrap.sh --user --no-doc
 export PATH=$HOME/cabal/bin:$PATH
 cabal update
 ```
-If it successfully finished don't forget to add string with  `export` to your `.profile` file.
+If it successfully finished don't forget to add the string from, starting with `export` to your `.profile` file.
 
-And final step, put `config` file into `/c/Users/<yourname>/AppData/Roaming/cabal/`, because `cabal` on Windows looks for its config in that directory. Change all path-records there to your analog of my `d:\mstmp\msys64\home\oleg\cabal`. See, for example, [my version](./config-windows).
+And final step, put `config` file into the hidden from Windows users directory `/c/Users/<yourname>/AppData/Roaming/cabal/`, because `cabal` on Windows looks for its config in there. The `<yourname>` here is your user name in Windows. Change all the path-records there to your version of my `d:\mstmp\msys64\home\oleg\cabal`. See, for example, [my variant](./config-windows).
