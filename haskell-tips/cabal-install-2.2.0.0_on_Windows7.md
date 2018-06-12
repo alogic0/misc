@@ -34,7 +34,7 @@ pacman -S --needed git tar bsdtar binutils autoconf make xz \
     mingw-w64-$(uname -m)-gcc mingw-w64-$(uname -m)-tools-git \
     mingw-w64-$(uname -m)-python3-sphinx
 ```
- Download the binary [release](https://www.haskell.org/ghc/) of GHC for Windows, unpack it to `$HOME` and add its `bin` and `lib/bin` dirs to your `$PATH`.
+ Download the binary [release](https://www.haskell.org/ghc/) of GHC for Windows, unpack it to `$HOME` and add its `bin` and `lib/bin` dirs to your `$PATH`. Now it's 8.4.3, so the numbers here.
 ```
 export PATH=$HOME/ghc-8.4.3/bin:$HOME/ghc-8.4.3/lib/bin:$PATH
 ```
