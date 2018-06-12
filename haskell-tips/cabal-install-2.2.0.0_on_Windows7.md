@@ -4,7 +4,7 @@ a simple path name. For example, into `d:\shonfinkel\` or `d:\haskell\`. We'll d
 1.  Install [MSYS2](http://repo.msys2.org/distrib/)  
 Download a latest `tar.gz` file from there and unpack it to `d:\shonfinkel` directory. 
 You can choose any path, but avoid spaces and non ASCII symbols in it. Now we have a directory `d:\shonfinkel\msys64`.
-Run `mingw64.exe` from there to get the initial configuration of MSYS2. 
+Run `mingw64.exe` from there it will make the initial configuration of MSYS2. 
 It's useful also to go into the 'Options' menu in the opened window and change font 
 and window sizes there for better looking, if you will. Now, run `msys64` terminal again and you are in the Linux environment.
 2.  Our current home directory is named as `<your Windows name>`. We won't change it, but we'll change the `$HOME` variable and will work inside a new directory with the only ASCII symbols in its name. This is for saving us from the problems during a compilation.  
