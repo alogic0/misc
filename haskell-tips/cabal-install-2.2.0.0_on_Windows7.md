@@ -49,8 +49,13 @@ mv bootstrap.sh bootstrap-old.sh
 wget https://raw.githubusercontent.com/alogic0/misc/master/haskell-tips/bootstrap.sh
 PREFIX=$HOME/cabal  ./bootstrap.sh --user --no-doc
 export PATH=$HOME/cabal/bin:$PATH
-cabal update
 ```
 If it successfully finished don't forget to add the string from, starting with `export` to your `.profile` file.
 
-And final step, put `config` file into the hidden from Windows users directory `/c/Users/<yourname>/AppData/Roaming/cabal/`, because `cabal` on Windows looks for its config in there. The `<yourname>` here is your user name in Windows. Change all the path-records there to your version of my `d:\mstmp\msys64\home\oleg\cabal`. See, for example, [my variant](./config-windows).
+And final step, the `config` file for `cabal-install` is into the hidden from Windows users directory `/c/Users/<yourname>/AppData/Roaming/cabal/`. Change all the path-records there to your version of my `d:\mstmp\msys64\home\oleg\cabal`. See, for example, [my variant](./config-windows).
+
+Now, you can run
+```
+cabal update
+```
+and install anything from the [Hackage](https://hackage.haskell.org/).
