@@ -1,3 +1,15 @@
+To beautify types and write them like in usual Haskell, the next mess of code is produced. To work it requires
+```bash
+cabal install regex-applicative megaparsec 
+```
+Place this file in the same directory as `HindleyMilner.hs`, run **ghci** there and load the code
+```bash
+>:l TypeParser.hs
+```
+then copy and paste the strings with `test` commands from the end of file. Now you can `test` various simple types for possible unification. Look at the resulting type and the required substitutions for the originals to mutate into it. The order of substitutions from left to right.
+
+##  TypeParser.hs
+```haskell
 module TypeParser where
 
 import Control.Monad (void, guard)
@@ -34,7 +46,6 @@ table = [ [ binary  "->"  (:->) ] ]
 
 binary  name f = InfixL  (f <$ symbol name)
 
-parseType = runParser expr ""
 
 seqSubst lst e = foldl (\e s -> fromJust $ subst [s] e) e lst
 
@@ -81,10 +92,9 @@ test a b = do
   print $ unifyS a b 
 
 {- Tests
-
 test "b -> a -> b "      "(g -> g) -> d"
 test "a -> ( b -> c )"   "d -> d"
-test "b -> b"            "((g -> d) -> e) -> (a -> d)"
+test "b -> b"              "((g -> d) -> e) -> (a -> d)"
 test "a -> b -> a"       "g -> d"
-
 -}
+```
