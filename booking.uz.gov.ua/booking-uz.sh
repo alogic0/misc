@@ -46,3 +46,9 @@ if [[ (-n $FROM) && (-n $TO) ]]
     rm $TMP
     echo
 fi
+
+## wget -O - --post-data='from='$FROM'&to='$TO'&date='$DATE'&time=00%3A00&get_tpl=1' https://booking.uz.gov.ua/ru/train_search/
+
+##  wget -O - --post-data='from=2208001&to=2200001&date=2018-08-22&train=106%D0%A8&wagon_type_id=%D0%9A&get_tpl=1' https://booking.uz.gov.ua/ru/train_wagon/
+
+## wget -O - --post-data='from=2208001&to=2200001&train=106%D0%A8&date=2018-08-22&wagon_num=1&wagon_type=%D0%9A&wagon_class=%D0%91' https://booking.uz.gov.ua/ru/train_wagons/
