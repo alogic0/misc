@@ -1,11 +1,11 @@
 #!/bin/bash
 
-## Usage: $0 OD KOV 19.08
-##    or: $0 OD KOV 19.08.2018
+## Usage: $0 OD KOV 08-19
+##    or: $0 OD KOV 2018-08-19
 ##    or: $0 OD KOV
 
 YEAR=$(date +'%Y')
-DT=${3:-$(date +'%d.%m')}
+DT=${3:-$(date +'%m-%d')}
 
 declare -A names
 names=([2218020]=Ковель
@@ -23,11 +23,11 @@ if [[ -n $2 ]]
     TO=${codes[$2]}
 fi
 
-if [[ $(echo $DT | sed 's/\./ /g' | wc -w) -eq 3 ]]
+if [[ $(echo $DT | sed 's/\-/ /g' | wc -w) -eq 3 ]]
   then
     DATE=$DT
   else
-    DATE=${DT}.$YEAR
+    DATE=$YEAR-${DT}
 fi
 
 if [[ (-n $FROM) && (-n $TO) ]]
