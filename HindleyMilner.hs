@@ -1,6 +1,7 @@
 module HindleyMilner where
 import Control.Applicative ((<|>))
 import Control.Monad (guard)
+import Data.Maybe (fromJust)
 
 type Symb = String
 
@@ -22,10 +23,10 @@ freeVars (TVar x) = [x]
 freeVars (t1 :-> t2) = freeVars t1 ++ freeVars t2
 
 unify :: Type -> Type -> Maybe [(Type, Type)]
-unify  (TVar a) (TVar b) =
-  if a == b
+unify  va@(TVar _) vb@(TVar _) =
+  if va == vb
   then Just [] 
-  else Nothing
+  else Just [(va, vb)]
 unify va@(TVar a) t
   | a `elem` freeVars t = Nothing
   | otherwise = Just [(va,t)]
@@ -39,7 +40,10 @@ unify (s1 :-> s2) (t1 :-> t2) = do
 
 -- Tests
 {-
-test a b = unify a b >>= \lst -> return $ subst lst a == subst lst b
+seqSubst lst e = foldl (\e s -> fromJust $ subst [s] e) e lst
+test a b = unify a b >>= \lst -> return $ seqSubst lst a == seqSubst lst b
 test (TVar "a" :-> TVar "b" :-> TVar "c") (TVar "d" :-> TVar "d")
 test (TVar "b" :-> TVar "b") (((TVar "g" :-> TVar "d") :-> TVar "e") :-> TVar "a" :-> TVar "d")
+test (TVar "a" :-> TVar "b" :-> TVar "a") (TVar "g" :-> TVar "d")
 -}
+
