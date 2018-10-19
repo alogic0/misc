@@ -1,4 +1,5 @@
 module Roman where
+-- illustration: mathsisfun.com/numbers/images/roman-1984.gif
 
 toDecimal :: String -> Int
 toDecimal "" = 0
