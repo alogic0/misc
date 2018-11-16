@@ -30,21 +30,25 @@ if [[ $(echo $DT | sed 's/\-/ /g' | wc -w) -eq 3 ]]
     DATE=$YEAR-${DT}
 fi
 
+PNM="${1}-${2}"
+PZD='from='$FROM'&to='$TO'&time=00%3A00&train=084%D0%A8&get_tpl=1'
+
 if [[ (-n $FROM) && (-n $TO) ]]
   then
-    TMP=$(mktemp /tmp/$(basename $0)-$(date +%Y-%m-%d-%H%M%S)-XXX)
-    echo "On date $DATE ${names[$FROM]} - ${names[$TO]}"
-    wget -q -O - --post-data='station_id_from='$FROM'&station_id_till='$TO'&station_from=&station_till=&date_dep='$DATE'&time_dep=00%3A00&time_dep_till=&another_ec=0&search=' https://booking.uz.gov.ua/ru/purchase/search/ | tee $TMP
-    if grep -q 'places' $TMP
-      then
-          d=$(cut -d '.' -f 1 <<<$DATE)
-          m=$(cut -d '.' -f 2 <<<$DATE)
-          Y=$(cut -d '.' -f 3 <<<$DATE)
-          echo
-          echo 'https://booking.uz.gov.ua/ru/?date='${Y}-${m}-${d}'&from='$FROM'&time=00%3A00&to='$TO'&url=train-list'
-    fi
-    rm $TMP
-    echo
+
+    TMP=$(mktemp /tmp/$(basename $0)-$(date +%Y%m%d%H%M%S)-XXX)
+    TMP2=$(mktemp /tmp/$(basename $0)-$(date +%Y%m%d%H%M%S)-2-XXX)
+    wget -q -O - --post-data=${PZD}'&date='$DATE https://booking.uz.gov.ua/ru/mobile/train_wagons/ > $TMP
+    cat $TMP | grep -Eo '"title":"[[:alpha:]]+","letter":".","free":[[:digit:]]+,"cost":[[:digit:]]+' \
+              | cut -d ',' -f 1,3,4 | grep -v 'Люкс' | tee $TMP2
+    P_NOW=$(cat $TMP2 | grep 'Плацкарт' | egrep -o '"free":[[:digit:]]+' | egrep -o '[[:digit:]]+')
+    P_NOW=${P_NOW:-0}
+    K_NOW=$(cat $TMP2 | grep 'Купе' | egrep -o '"free":[[:digit:]]+' | egrep -o '[[:digit:]]+')
+    K_NOW=${K_NOW:-0}
+    MSG="$MSG"" Купе: $K_NOW"
+    MSG="$MSG"" Плацкарт: $P_NOW"
+    echo "$DT $PNM $MSG"
+    rm $TMP $TMP2
 fi
 
 ## wget -O - --post-data='from='$FROM'&to='$TO'&date='$DATE'&time=00%3A00&get_tpl=1' https://booking.uz.gov.ua/ru/train_search/
