@@ -4,6 +4,9 @@
 ##    or: $0 OD KOV 2018-08-19
 ##    or: $0 OD KOV
 
+## requires parsing JSON utility 'jl'
+## https://github.com/chrisdone/jl
+
 YEAR=$(date +'%Y')
 DT=${3:-$(date +'%m-%d')}
 
@@ -31,22 +34,25 @@ if [[ $(echo $DT | sed 's/\-/ /g' | wc -w) -eq 3 ]]
 fi
 
 PNM="${1}-${2}"
-PZD='from='$FROM'&to='$TO'&time=00%3A00&train=084%D0%A8&get_tpl=1'
+# PZD='from='$FROM'&to='$TO'&time=00%3A00&train=084%D0%A8&get_tpl=1'
+PZD='from='$FROM'&to='$TO'&time=00%3A00'
 
 if [[ (-n $FROM) && (-n $TO) ]]
   then
 
     TMP=$(mktemp /tmp/$(basename $0)-$(date +%Y%m%d%H%M%S)-XXX)
     TMP2=$(mktemp /tmp/$(basename $0)-$(date +%Y%m%d%H%M%S)-2-XXX)
-    wget -q -O - --post-data=${PZD}'&date='$DATE https://booking.uz.gov.ua/ru/mobile/train_wagons/ > $TMP
-    cat $TMP | grep -Eo '"title":"[[:alpha:]]+","letter":".","free":[[:digit:]]+,"cost":[[:digit:]]+' \
-              | cut -d ',' -f 1,3,4 | grep -v 'Люкс' | tee $TMP2
-    P_NOW=$(cat $TMP2 | grep 'Плацкарт' | egrep -o '"free":[[:digit:]]+' | egrep -o '[[:digit:]]+')
-    P_NOW=${P_NOW:-0}
-    K_NOW=$(cat $TMP2 | grep 'Купе' | egrep -o '"free":[[:digit:]]+' | egrep -o '[[:digit:]]+')
-    K_NOW=${K_NOW:-0}
-    MSG="$MSG"" Купе: $K_NOW"
-    MSG="$MSG"" Плацкарт: $P_NOW"
+##    wget -q -O - --post-data=${PZD}'&date='$DATE https://booking.uz.gov.ua/ru/mobile/train_wagons/ > $TMP
+    wget -q -O - --post-data=${PZD}'&date='$DATE https://booking.uz.gov.ua/ru/train_search/ > $TMP
+##    cat $TMP | grep -Eo '"title":"[[:alpha:]]+","letter":".","free":[[:digit:]]+,"cost":[[:digit:]]+' \
+##              | cut -d ',' -f 1,3,4 | grep -v 'Люкс' | tee $TMP2
+##    P_NOW=$(cat $TMP2 | grep 'Плацкарт' | egrep -o '"free":[[:digit:]]+' | egrep -o '[[:digit:]]+')
+##    P_NOW=${P_NOW:-0}
+##    K_NOW=$(cat $TMP2 | grep 'Купе' | egrep -o '"free":[[:digit:]]+' | egrep -o '[[:digit:]]+')
+##    K_NOW=${K_NOW:-0}
+##    MSG="$MSG"" Купе: $K_NOW"
+##    MSG="$MSG"" Плацкарт: $P_NOW"
+    MSG=$(jl '\o -> if ( elem "warning" $ keys o.data) then o.data.warning else [o.data.list[0].num, map (\x -> [x.title, x.places]) o.data.list[0].types]' $TMP)
     echo "$DT $PNM $MSG"
     rm $TMP $TMP2
 fi
