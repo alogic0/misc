@@ -20,13 +20,15 @@ codes=([KOV]=2218020
        [OD]=2208001
        [MIN]=2100001)
 
-if [[ -n $2 ]]
-  then
-    FROM=${codes[$1]}
-    TO=${codes[$2]}
-fi
+#if [[ -n $2 ]]
+#  then
+#    FROM=${codes[$1]}
+#    TO=${codes[$2]}
+#fi
 ## wget -q -O - "https://booking.uz.gov.ua/ru/train_search/station/?term=$1"
 
+FROM="$1"
+TO="$2"
 
 if [[ $(echo $DT | sed 's/\-/ /g' | wc -w) -eq 3 ]]
   then
@@ -53,7 +55,7 @@ if [[ (-n $FROM) && (-n $TO) ]]
 ##    K_NOW=${K_NOW:-0}
 ##    MSG="$MSG"" Купе: $K_NOW"
 ##    MSG="$MSG"" Плацкарт: $P_NOW"
-    wget -q -O $TMP --post-data="${PZQ}&date=$DATE" https://booking.uz.gov.ua/ru/train_search/ 
+    wget -q -O - --post-data="${PZQ}&date=$DATE" https://booking.uz.gov.ua/ru/train_search/ > $TMP
     MSG=$(jl '\o -> if ( elem "warning" $ keys o.data) then o.data.warning else (map (\l -> concat ([[l.num], map (\x -> [x.title, x.places]) l.types])) o.data.list)' $TMP)
     echo $MSG | jl id --lines | while read TR; do
       if [[ "$TR" =~ ^\[\" ]];
