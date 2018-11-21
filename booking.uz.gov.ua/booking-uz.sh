@@ -25,6 +25,8 @@ if [[ -n $2 ]]
     FROM=${codes[$1]}
     TO=${codes[$2]}
 fi
+## Look for other station codes here:
+## wget -q -O - "https://booking.uz.gov.ua/ru/train_search/station/?term=$1"
 
 if [[ $(echo $DT | sed 's/\-/ /g' | wc -w) -eq 3 ]]
   then
@@ -35,7 +37,7 @@ fi
 
 PNM="${1}-${2}"
 # PZD='from='$FROM'&to='$TO'&time=00%3A00&train=084%D0%A8&get_tpl=1'
-PZD='from='$FROM'&to='$TO'&time=00%3A00'
+PZQ='from='$FROM'&to='$TO'&time=00%3A00'
 
 if [[ (-n $FROM) && (-n $TO) ]]
   then
@@ -43,7 +45,6 @@ if [[ (-n $FROM) && (-n $TO) ]]
     TMP=$(mktemp /tmp/$(basename $0)-$(date +%Y%m%d%H%M%S)-XXX)
     TMP2=$(mktemp /tmp/$(basename $0)-$(date +%Y%m%d%H%M%S)-2-XXX)
 ##    wget -q -O - --post-data=${PZD}'&date='$DATE https://booking.uz.gov.ua/ru/mobile/train_wagons/ > $TMP
-    wget -q -O - --post-data=${PZD}'&date='$DATE https://booking.uz.gov.ua/ru/train_search/ > $TMP
 ##    cat $TMP | grep -Eo '"title":"[[:alpha:]]+","letter":".","free":[[:digit:]]+,"cost":[[:digit:]]+' \
 ##              | cut -d ',' -f 1,3,4 | grep -v 'Люкс' | tee $TMP2
 ##    P_NOW=$(cat $TMP2 | grep 'Плацкарт' | egrep -o '"free":[[:digit:]]+' | egrep -o '[[:digit:]]+')
@@ -52,8 +53,18 @@ if [[ (-n $FROM) && (-n $TO) ]]
 ##    K_NOW=${K_NOW:-0}
 ##    MSG="$MSG"" Купе: $K_NOW"
 ##    MSG="$MSG"" Плацкарт: $P_NOW"
-    MSG=$(jl '\o -> if ( elem "warning" $ keys o.data) then o.data.warning else [o.data.list[0].num, map (\x -> [x.title, x.places]) o.data.list[0].types]' $TMP)
-    echo "$DT $PNM $MSG"
+    wget -q -O - --post-data="${PZQ}&date=$DATE" https://booking.uz.gov.ua/ru/train_search/ > $TMP
+    MSG=$(jl '\o -> if ( elem "warning" $ keys o.data) then o.data.warning else (concat ([[o.data.list[0].num], map (\x -> [x.title, x.places]) o.data.list[0].types]))' $TMP)
+    if [[ "$MSG" =~ ^\[\" ]];
+      then PZNAME=$(cut -d '"' -f 2 <<< "$MSG");
+           wget -q -O $TMP2 --post-data="${PZQ}&date=${DATE}&train=${PZNAME}&get_tpl=1" https://booking.uz.gov.ua/ru/mobile/train_wagons/;
+#           MSG2=" Cost: $(jl '_.data.wagonTypes | map (\x -> [x.letter, x.cost / 100.0])' $TMP2)"
+           MSG2=" Cost: $(jl '\o -> if ( elem "error" $ keys o)
+                                    then "error"
+                                    else  map (\x -> [x.letter, x.cost / 100.0]) o.data.wagonTypes' $TMP2)"
+      else MSG2=''
+    fi
+    echo "$DATE $PNM ${MSG}${MSG2}"
     rm $TMP $TMP2
 fi
 
