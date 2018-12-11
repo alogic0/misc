@@ -49,11 +49,11 @@ repository ghcjs-overlay
   key-threshold: 0
 ```
 
-If you use new-style cabal commands, you can also add it to your
-`cabal.project`, but you will have to use `cabal new-update` instead of `cabal
-update`.
+> If you use new-style cabal commands, you can also add it to your
+> `cabal.project`, but you will have to use `cabal new-update` instead of `cabal
+> update`.
 
-See about this and about automatic deployment your build to `gh-pages` [here](https://github.com/nomeata/hackage-ghcjs-overlay/blob/master/README.md).
+See about this and about automatic deployment of your build to `gh-pages` [here](https://github.com/nomeata/hackage-ghcjs-overlay/blob/master/README.md).
 
 Obsolete instruction
 --------------------
