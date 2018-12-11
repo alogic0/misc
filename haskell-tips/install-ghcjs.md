@@ -2,7 +2,7 @@
 mkdir src; cd src
 sudo apt-get install nodejs npm
 sudo apt-get install ghc-8.4.4
-## poing `ghc` to ghc-8.4.4
+## link manually `ghc` to ghc-8.4.4
 sudo update-alternatives --config opt-ghc
 cabal install alex happy hsc2hs
 git clone --branch ghc-8.4 https://github.com/ghcjs/ghcjs.git ghcjs-8.4
