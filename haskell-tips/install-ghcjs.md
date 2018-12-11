@@ -1,3 +1,6 @@
+Installing GHCJS and the packages on a fresh Ubuntu server
+==========================================================
+
 ```bash
 mkdir src; cd src
 sudo apt-get install nodejs npm
