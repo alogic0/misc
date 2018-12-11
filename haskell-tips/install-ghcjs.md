@@ -56,7 +56,7 @@ repository ghcjs-overlay
 > `cabal.project`, but you will have to use `cabal new-update` instead of `cabal
 > update`.
 
-See about this and about automatic deployment of your build to `gh-pages` [here](https://github.com/nomeata/hackage-ghcjs-overlay/blob/master/README.md).
+See about this and about automatic deployment of your build to `gh-pages` here [GHCJS package overlay for Hackage](https://github.com/nomeata/hackage-ghcjs-overlay/blob/master/README.md).
 
 Obsolete instruction
 --------------------
