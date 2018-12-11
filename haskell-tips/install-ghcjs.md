@@ -32,7 +32,33 @@ cd $HOME/src/ghcjs-8.4
 ## assuming you have 4-core processor
 ghcjs-boot -j 4 --no-haddock -s lib/boot/
 ```
-If you want to install `ghcjs-dom`
+Now the best way to have
+
+ * `ghcjs-base`
+ * `reflex`
+ * `reflex-dom` and `reflex-dom-core`.
+
+
+is to add to your `~/.cabal/config`:
+
+```
+repository ghcjs-overlay
+  url: http://hackage-ghcjs-overlay.nomeata.de/
+  secure: True
+  root-keys:
+  key-threshold: 0
+```
+
+If you use new-style cabal commands, you can also add it to your
+`cabal.project`, but you will have to use `cabal new-update` instead of `cabal
+update`.
+
+See about this and about automatic deployment your build to `gh-pages` [here](https://github.com/nomeata/hackage-ghcjs-overlay/blob/master/README.md).
+
+Obsolete instruction
+--------------------
+
+The way to install `ghcjs-dom`:
 ```bash
 wget -O ghcjs-base-master.zip https://codeload.github.com/ghcjs/ghcjs-base/zip/master
 unzip ghcjs-base-master.zip
