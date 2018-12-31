@@ -45,7 +45,7 @@ if [[ (-n $FROM) && (-n $TO) ]]
   then
 
     TMP=$(mktemp /tmp/$(basename $0)-$(date +%Y%m%d%H%M%S)-XXX)
-    TMP2=$(mktemp /tmp/$(basename $0)-$(date +%Y%m%d%H%M%S)-2-XXX)
+    TMP2=${TMP}-2
 ##    wget -q -O - --post-data=${PZD}'&date='$DATE https://booking.uz.gov.ua/ru/mobile/train_wagons/ > $TMP
 ##    cat $TMP | grep -Eo '"title":"[[:alpha:]]+","letter":".","free":[[:digit:]]+,"cost":[[:digit:]]+' \
 ##              | cut -d ',' -f 1,3,4 | grep -v 'Люкс' | tee $TMP2
