@@ -11,7 +11,7 @@ fi
 echo TZ=$TZ
 if [[ ! -z $1 ]]
   then
-    date $*
+    date "$*"
   else
-    date -R
+    date +'%c %z'
 fi
