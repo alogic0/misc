@@ -1,0 +1,13 @@
+# sdb1 --> efi, sdb2 --> root, sdb3 --> swap
+# mount -o rw /dev/sdb2 /media/user/mntpoint
+
+sudo -i
+cd /media/user/mntpoint
+time ( tar -cpf - --one-file-system / | tar -xvpf - --numeric-owner )
+for f in dev dev/pts proc sys; do mount --bind /$f ./$f ; done
+chroot .
+mount -o rw /dev/sdb1 /boot/efi/
+mount -t efivarfs efivarfs /sys/firmware/efi/efivars
+update-grub
+grub-install --target=x86_64-efi --recheck /dev/sdb
+vim /etc/fstab

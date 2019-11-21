@@ -9,6 +9,9 @@
 YEAR=$(date +'%Y')
 DT=${3:-$(date +'%m-%d')}
 
+TRAIN_SEARCH=https://booking.uz.gov.ua/ru/train_search/;
+TRAIN_SEARCH_MOBILE=https://booking.uz.gov.ua/ru/mobile/train_search/;
+
 read STATION1 FROM <<< $(grep -Pi "^$1\s+\d+$" express-asu.txt);
 read STATION2 TO <<< $(grep -Pi "^$2\s+\d+$" express-asu.txt);
 
@@ -31,15 +34,15 @@ if [[ (-n $FROM) && (-n $TO) ]]
     TMP=$(mktemp /tmp/$(basename $0)-$(date +%Y%m%d%H%M%S)-XXX)
     TMP2=$(mktemp /tmp/$(basename $0)-$(date +%Y%m%d%H%M%S)-2-XXX)
 ## DEBUG
-     echo wget --post-data="${PZQ}&date=${DATE}&time=00%3A00&get_tpl=1" https://booking.uz.gov.ua/ru/mobile/train_search/
+     echo wget --post-data="${PZQ}&date=${DATE}&time=00%3A00&get_tpl=1" $TRAIN_SEARCH;
      #wget -q -O - --post-data="${PZQ}&date=${DATE}" https://booking.uz.gov.ua/ru/train_search/ > $TMP
      wget -q -O $TMP \
-      --post-data="${PZQ}&date=${DATE}&time=00%3A00&get_tpl=1" https://booking.uz.gov.ua/ru/mobile/train_search/
+      --post-data="${PZQ}&date=${DATE}&time=00%3A00&get_tpl=1" $TRAIN_SEARCH;
      cat $TMP
      exit
 ## DEBUG END
     wget -q -O $TMP \
-      --post-data="${PZQ}&date=${DATE}&time=00%3A00&get_tpl=1" https://booking.uz.gov.ua/ru/mobile/train_search/
+      --post-data="${PZQ}&date=${DATE}&time=00%3A00&get_tpl=1" $TRAIN_SEARCH;
     MSG=$(jl '\o -> if ( elem "warning" $ keys o.data) then o.data.warning else (map (\l -> [l.num, l.from.stationTrain, l.to.stationTrain]) o.data.list)' $TMP)
     [[ -n $MSG ]] && echo $MSG | jl id --lines | while read TR; do
       if [[ "$TR" =~ ^\[\" ]];
